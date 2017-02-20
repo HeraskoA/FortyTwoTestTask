@@ -8,10 +8,10 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding model 'UserData'
+        pass
 
     def backwards(self, orm):
-        # Deleting model 'UserData'
+        pass
 
     models = {
         u'hello.userdata': {
