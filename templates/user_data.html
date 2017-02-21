@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Main Page{% endblock title %}
+{% block extra_head %}
+{% endblock extra_head %}
+{% block content %}
+{% if data %}
+	<div class="container">
+		<div class="row">
+				<div class="col-xs-6">
+				</div>
+				<div class="col-xs-6">
+				<strong>Contacts</strong>
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+				<strong>Name:</strong> {{data.first_name}}
+				</div>
+				<div class="col-xs-6">
+				<strong>Email:</strong> {{data.email}}
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+				<strong>Last name:</strong> {{data.last_name}}
+				</div>
+				<div class="col-xs-6">
+				<strong>Jabber:</strong> {{data.jabber}}
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+				<strong>Date of birth:</strong> {{data.date_of_birth}}
+				</div>
+				<div class="col-xs-6">
+				<strong>Skype:</strong> {{data.skype}}
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+				<strong>Bio:</strong> {{data.bio|linebreaks}}
+				</div>
+				<div class="col-xs-6">
+				<strong>Other contacts:</strong> {{data.other_contacts|linebreaks}}
+				</div>
+		</div>
+
+	</div>
+{% else %}
+<div class="alert alert-warning" role="alert">No data</div>
+{% endif %}
+{% endblock content %}
