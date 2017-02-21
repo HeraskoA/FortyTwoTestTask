@@ -1,16 +1,16 @@
 [
-{
-"fields": {
-"first_name": "Andrei",
-"last_name": "Herasko",
-"date_of_birth": "1998-02-23",
-"bio": "I'm studying at the second course of the National Technical University of Ukraine.",
-"email": "andrey.herasko@gmail.com",
-"jabber": "hector@42cc.co",
-"skype": "ander2299",
-"other_contacts": "other_contacts"
-},
-"model": "hello.UserData",
-"pk": 1
-}
+	{
+		"fields": {
+			"first_name": "Andrei",
+			"last_name": "Herasko",
+			"date_of_birth": "1998-02-23",
+			"bio": "I'm studying at the second course of the National Technical University of Ukraine.",
+			"email": "andrey.herasko@gmail.com",
+			"jabber": "hector@42cc.co",
+			"skype": "ander2299",
+			"other_contacts": "other_contacts"
+		},
+		"model": "hello.UserData",
+		"pk": 1
+	}
 ]
