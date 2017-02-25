@@ -45,9 +45,12 @@
 				<strong>Other contacts:</strong> {{data.other_contacts|linebreaks}}
 				</div>
 		</div>
-
 	</div>
 {% else %}
 <div class="alert alert-warning" role="alert">No data</div>
 {% endif %}
+<hr>
+<div class="requests">
+<a href="{% url 'requests' %}">Requests</a>
+</div>
 {% endblock content %}

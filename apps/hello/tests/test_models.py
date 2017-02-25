@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
-from django.test import TestCase
-from hello.models import UserData
+from django.test import TestCase, Client
+from django.core.urlresolvers import reverse
+from hello.models import UserData, Request
 from django.db.models import (CharField,
-                              DateField,
+                              DateField, TimeField,
                               TextField, EmailField)
 
 
@@ -39,3 +40,21 @@ class Testdata(TestCase):
         self.assertEqual(type(jabber), CharField)
         self.assertEqual(type(skype), CharField)
         self.assertEqual(type(other_contacts), TextField)
+
+
+class TestRequestModel(TestCase):
+
+    def setUp(self):
+        self.client = Client()
+        self.url = reverse('home')
+        self.client.get(self.url)
+
+    def test_model(self):
+        """Check models field"""
+        req = Request.objects.first()
+        path = req._meta.get_field('path')
+        method = req._meta.get_field('method')
+        time = req._meta.get_field('time')
+        self.assertEqual(type(method), CharField)
+        self.assertEqual(type(path), CharField)
+        self.assertEqual(type(time), TimeField)
