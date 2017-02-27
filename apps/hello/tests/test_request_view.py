@@ -20,6 +20,7 @@ class TestRequestView(TestCase):
             self.assertIn(request.path, response.content)
             self.assertIn(request.method, response.content)
             self.assertIn(str(request.time)[:12], response.content)
+            self.assertIn(str(request.priority), response.content)
 
     def test_ajax_temp(self):
         """ajax request, must to get the required requests"""
@@ -51,6 +52,24 @@ class TestRequestView(TestCase):
         requests = Request.objects.all()
         self.assertEqual(response.context['requests'], list(requests))
         self.assertEqual(len(response.context['requests']), len(requests))
+
+    def test_sort_decrease(self):
+        """test in case objects are sorted in ascending"""
+        for i in range(12):
+            Request.objects.create(path='/' + str(i) + '/', method='GET', priority=i)
+        response = self.client.get('%s?order=1' % reverse('requests'))
+        requests = Request.objects.all().order_by('-priority', '-id')[:10]
+        requests.reverse()
+        self.assertEqual(list(response.context['requests']), list(requests))
+
+    def test_sort_increase(self):
+        """test in case objects are sorted in descending"""
+        for i in range(12):
+            Request.objects.create(path='/' + str(i) + '/', method='GET', priority=i)
+        response = self.client.get('%s?order=0' % reverse('requests'))
+        requests = Request.objects.all().order_by('priority', '-id')[:10]
+        requests.reverse()
+        self.assertEqual(list(response.context['requests']), list(requests))
 
     def test_view_template(self):
         """check the use of the correct template"""

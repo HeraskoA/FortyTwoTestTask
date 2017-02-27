@@ -24,10 +24,20 @@ def requests(request):
             json.dumps(serialize("json", requests[:difference])),
             content_type="application/json"
         )
+    if request.GET.get('order'):
+        sort = request.GET.get('order')
+        if sort == '1':
+            requests = Request.objects.all().order_by('-priority','-id')
+        if sort == '0':
+            requests = Request.objects.all().order_by('priority', '-id')
+	requests = requests[:10]
+    else:
+        sort = ""
     requests.reverse()
     return render(request, 'requests.html', {
         "requests": requests,
-        "count": Request.objects.count()
+        "count": Request.objects.count(),
+        "sort": sort
     })
 
 

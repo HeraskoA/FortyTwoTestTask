@@ -17,15 +17,17 @@
         <tr>
             <th>Path</th>
       	    <th>Method</th>	
-            <th>Time</th>	
+            <th>Time</th>
+            <th>Priority{% if sort == '1' %}<a href="{% url 'requests' %}?order=0">&uarr;</a>{% elif sort == '0' %}<a href="{% url 'requests' %}?order=1">&darr;</a>{% else %}<a href="{% url 'requests' %}?order=1">&uarr;&darr;</a>{% endif %}</th>	
         </tr>
         </thead>
 <tbody>
-{% for request in requests %}
+{% for req in requests %}
         <tr class="request">
-            <td>{{ request.path }} </td>
-            <td>{{ request.method }}</td>
-            <td>{{request.time|date:"c"|slice:":12"}}</td>
+            <td>{{ req.path }} </td>
+            <td>{{ req.method }}</td>
+            <td>{{ req.time|date:"c"|slice:":12" }}</td>
+			<td>{{ req.priority }}</td>
         </tr>
 {% endfor %}
 
