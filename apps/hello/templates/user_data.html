@@ -48,10 +48,17 @@
 		</div>
 		<div class="row">
 				<div class="col-xs-6">
-				<strong>Bio:</strong> {{data.bio|linebreaks}}
+				<strong>Photo:</strong>
+				<br>
+				{% if data.photo %}
+        			<img class="img" src="{{ data.photo.url }}" style="height: 200px;">
+    				{% else %}
+        			<img class="img-responsive" src="{{ STATIC_URL }}img/anon.jpg" style="height: 200px;">
+    				{% endif %}
 				</div>
 				<div class="col-xs-6">
 				<strong>Other contacts:</strong> {{data.other_contacts|linebreaks}}
+				<strong>Bio:</strong> {{data.bio|linebreaks}}
 				</div>
 		</div>
 	</div>
