@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase, Client
 from django.core.urlresolvers import reverse
-from hello.models import UserData, Request
+from hello.models import UserData, Request, Signal
 from django.db.models import (CharField, ImageField,
                               DateField, TimeField,
-                              TextField, EmailField)
+                              TextField, EmailField,
+                              IntegerField)
 
 
 class Testdata(TestCase):
@@ -60,3 +61,21 @@ class TestRequestModel(TestCase):
         self.assertEqual(type(method), CharField)
         self.assertEqual(type(path), CharField)
         self.assertEqual(type(time), TimeField)
+
+
+class TestSignalModel(TestCase):
+
+    def test_model(self):
+        """Check models fields"""
+        Signal.objects.create(
+            object_type = 'User',
+            object_id = 1,
+            action = 'create'
+            )
+        signal = Signal.objects.first()
+        object_type = signal._meta.get_field('object_type')
+        object_id = signal._meta.get_field('object_id')
+        action = signal._meta.get_field('action')
+        self.assertEqual(type(object_type), CharField)
+        self.assertEqual(type(object_id), IntegerField)
+        self.assertEqual(type(action), CharField)
