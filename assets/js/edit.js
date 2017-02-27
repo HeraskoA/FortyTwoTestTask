@@ -16,25 +16,25 @@ function form(){
 		'beforeSend': function(xhr, settings){
 			$('#indicator').show();
 			$('.btn-primary').addClass('hidden');
-                	$('.btn-default').addClass('hidden');
-                	$("input").attr("disabled", "disabled");
-                	$("textarea").attr("disabled", "disabled");
+            $('.btn-default').addClass('hidden');
+            $("input").attr("disabled", "disabled");
+            $("textarea").attr("disabled", "disabled");
 			},
 		'error': function() {alert('error');},
 		'success': function(data, status, xhr) {
 				$('#indicator').hide();
 				$("input").removeAttr("disabled");
-            			$("textarea").removeAttr("disabled");
+            	$("textarea").removeAttr("disabled");
 				$('.btn-primary').removeClass('hidden');
-                		$('.btn-default').removeClass('hidden');
+                $('.btn-default').removeClass('hidden');
 				if (data != 1) {
 					$('#saved').hide();
 					display_errors(data);
 					scroll();
 				}else{
-				$('.error').remove();
-				$('.form-control').removeClass('has-error');
-				$('#saved').show();
+					$('.error').remove();
+					$('.form-control').removeClass('has-error');
+					$('#saved').show();
 				}
 		}
 	});
