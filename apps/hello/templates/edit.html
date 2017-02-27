@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Edit data{% endblock title %}
+{% block extra_head %}
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+        <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script src="{% static 'js/edit.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/main_page.css' %}" />
+	{{form.media}}
+{% endblock extra_head %}
+{% block content %}
+<form action="{% url 'edit' 1 %}" method="post" enctype="multipart/form-data">
+{% csrf_token %}
+<div class="container">
+		<div class="row">
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_first_name">Name:</label>
+				{{form.first_name}}
+				</div>
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_email">Email:</label>
+				{{form.email}}
+				</div>
+		</div>
+		<p><div class="row">
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_last_name">Last name:</label>
+				{{form.last_name}}
+				</div>
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_jabber">Jabber:</label>
+				{{form.jabber}}
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_date_of_birth">Date of birth:</label>
+				{{form.date_of_birth}}
+				</div>
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_skype">Skype:</label>
+				{{form.skype}}
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_photo">Photo:</label>
+				</div>
+				<div class="col-xs-6">
+				<label class="col-sm-2 control-label"  for="id_other_contacts">Other contacts:</label>
+				</div>
+		</div>
+		<div class="row">
+				<div class="col-xs-6">
+                                {% if form.photo.value %}
+				<div class="img">
+                                <img src="{{ MEDIA_URL }}{{ form.photo.value }} ">
+				</div>
+				{% else %}
+				<img src="{% static 'image/anonim.jpg' %}">
+				{% endif %}
+				<div class='photo'>
+				{{form.photo}}
+				</div>
+				</div>
+				<div class="col-xs-6">
+				<div class="row textrea">
+				{{form.other_contacts}}
+				</div>
+				<div class="row">
+				<label class="bio"  for="id_bio">Bio:</label>
+				</div>
+				<div class="row textrea">
+				{{form.bio}}
+				</div>
+				</div>
+		</div>
+	</div>
+<div class='buttons'>
+<div hidden="true" class="alert alert-warning" id="saved" role="alert">
+Changes have been saved
+</div>
+<input type="submit" class="btn btn-primary" value="save" name="add_button">
+<img id='indicator' hidden="true" src="https://hsto.org/getpro/habr/post_images/451/5dc/843/4515dc843bbdc21e00d96d4db2a42d87.gif" width="80" height="50">
+<a class="btn btn-default" href="{% url 'home' %}" >cancel</a>
+</div>
+</form>
+
+<p>
+{% endblock content %}
+

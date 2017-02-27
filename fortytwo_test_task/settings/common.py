@@ -32,6 +32,9 @@ TEMPLATE_DEBUG = True
 ALLOWED_HOSTS = []
 
 
+LOGIN_URL = 'users:auth_login'
+LOGOUT_URL = 'users:auth_logout'
+
 # Application definition
 
 INSTALLED_APPS = (
@@ -43,6 +46,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'apps.hello',
+    'registration',
 )
 
 MIDDLEWARE_CLASSES = (

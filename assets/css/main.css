@@ -1,7 +1,7 @@
 #head {
 	padding-left: 90px;
 }
-.container {
+.contacts {
     	font-size: 16pt;
 }
 .row{
@@ -10,6 +10,32 @@
 .requests {
     	font-size: 16pt;
 	padding-left: 90px;
+}
+.form-control{
+    width: 280px;
+}
+.has-error {
+    background: red;
+}
+.buttons {
+	padding-left: 80px;
+    width: 400px;
+}
+.photo {
+    padding-top: 30px;
+}
+.textrea {
+    padding-left: 110px;
+}
+.bio {
+    padding-left: 30px;
+}
+.error {
+	position: right;
+	width: 160px;
+	height: 15px;
+	position: relative; 
+	bottom: 28px;
 }
 
 
