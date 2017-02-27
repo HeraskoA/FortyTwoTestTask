@@ -33,6 +33,7 @@ function form(){
 					scroll();
 				}else{
 				$('.error').remove();
+				$('.form-control').removeClass('has-error');
 				$('#saved').show();
 				}
 		}
