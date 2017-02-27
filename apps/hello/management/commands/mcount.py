@@ -13,4 +13,3 @@ class Command(BaseCommand):
                 )
             self.stdout.write(out)
             self.stderr.write('error: ' + out)
-            

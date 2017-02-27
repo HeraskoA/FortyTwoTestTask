@@ -9,7 +9,6 @@ from django.db.models import (CharField, ImageField,
 
 
 class Testdata(TestCase):
-
     def setUp(self):
         UserData.objects.create(
             first_name="Andrei",
@@ -46,7 +45,6 @@ class Testdata(TestCase):
 
 
 class TestRequestModel(TestCase):
-
     def setUp(self):
         self.client = Client()
         self.url = reverse('home')
@@ -64,14 +62,13 @@ class TestRequestModel(TestCase):
 
 
 class TestSignalModel(TestCase):
-
     def test_model(self):
         """Check models fields"""
         Signal.objects.create(
-            object_type = 'User',
-            object_id = 1,
-            action = 'create'
-            )
+            object_type='User',
+            object_id=1,
+            action='create'
+        )
         signal = Signal.objects.first()
         object_type = signal._meta.get_field('object_type')
         object_id = signal._meta.get_field('object_id')

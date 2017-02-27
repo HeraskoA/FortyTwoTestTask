@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from hello.models import Request, Signal
-from django.core.urlresolvers import reverse
 
 
 class TestSignal(TestCase):
@@ -23,8 +22,3 @@ class TestSignal(TestCase):
         req = Request.objects.create(path='/', method='GET')
         req.delete()
         self.assertEqual(Signal.objects.last().action, 'deleted')
-        
-        
-
-
-

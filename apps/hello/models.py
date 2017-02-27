@@ -26,7 +26,7 @@ class UserData(models.Model):
         max_length=40,
         blank=False,
         validators=[valid_jabber]
-        )
+    )
     skype = models.CharField(
         max_length=40,
         blank=False,
@@ -58,23 +58,34 @@ class Request(models.Model):
     method = models.CharField(max_length=60, blank=True)
     time = models.TimeField(blank=True, auto_now=True)
 
+
 class Signal(models.Model):
     object_type = models.CharField(max_length=256)
     object_id = models.IntegerField()
     action = models.CharField(max_length=10)
 
+
 @receiver(post_save)
 def save(sender, **kwargs):
     if sender.__name__ not in ['Signal', 'Session']:
-        if kwargs.get('created') == False:
+        if not kwargs.get('created'):
             action = 'update'
         else:
             action = 'created'
         objects_id = kwargs.get('instance').id
-        Signal.objects.create(object_type = sender.__name__, object_id = objects_id, action = action)
+        Signal.objects.create(object_type=sender.__name__,
+                              object_id=objects_id,
+                              action=action
+                              )
+    return
+
 
 @receiver(pre_delete)
 def deleted(sender, **kwargs):
     if sender.__name__ not in ['Signal', 'Session']:
         objects_id = kwargs.get('instance').id
-        Signal.objects.create(object_type = sender.__name__, object_id = objects_id, action='deleted')
+        Signal.objects.create(object_type=sender.__name__,
+                              object_id=objects_id,
+                              action='deleted'
+                              )
+    return
