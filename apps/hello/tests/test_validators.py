@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from django.core.urlresolvers import reverse
 from hello.models import UserData
 from django.core.exceptions import ValidationError
 
@@ -30,7 +29,6 @@ class TestValidators(TestCase):
 
     def test_validate_email(self):
         """check that we can't pass with the wrong email"""
-        data = UserData.objects.first()
         with self.assertRaisesMessage(
                 ValidationError,
                 'Enter a valid email address.'):
@@ -38,14 +36,13 @@ class TestValidators(TestCase):
 
     def test_validate_jabber(self):
         """check that we can't pass with the wrong jabber"""
-        data = UserData.objects.first()
         with self.assertRaisesMessage(
                 ValidationError,
                 'Enter a valid jabber.'):
             self.data.clean_fields()
+
     def test_validate_skype(self):
         """check that we can't pass with the wrong skype"""
-        data = UserData.objects.first()
         with self.assertRaisesMessage(
                 ValidationError,
                 'Enter a valid skype.'):

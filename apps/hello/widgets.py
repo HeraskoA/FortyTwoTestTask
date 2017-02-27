@@ -8,7 +8,7 @@ class DatePicker(forms.DateInput):
               'http://cdnjs.cloudflare.com/ajax/libs/'
               'bootstrap-datetimepicker/'
               '4.0.0/js/bootstrap-datetimepicker.min.js',
-	      'js/datepicker.js')
+              'js/datepicker.js')
         css = {
             'all': (
                 'http://cdnjs.cloudflare.com/ajax/libs/'
