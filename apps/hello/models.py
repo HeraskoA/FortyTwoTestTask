@@ -3,7 +3,7 @@ from PIL import Image
 import StringIO
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from apps.hello.validators import (valid_name, valid_skype,
-                                   valid_jabber)
+                                   valid_jabber, valid_birthday)
 
 
 class UserData(models.Model):
@@ -17,7 +17,11 @@ class UserData(models.Model):
         blank=False,
         validators=[valid_name]
     )
-    date_of_birth = models.DateField(blank=False, null=True)
+    date_of_birth = models.DateField(
+        blank=False,
+        null=True,
+        validators=[valid_birthday]
+    )
     bio = models.TextField(max_length=256, blank=False)
     email = models.EmailField(max_length=60, blank=False)
     jabber = models.CharField(

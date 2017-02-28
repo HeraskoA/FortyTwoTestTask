@@ -1,5 +1,13 @@
 from django.core.exceptions import ValidationError
 from django.core.validators import RegexValidator, EmailValidator
+from django.utils.timezone import now
+
+
+def valid_birthday(value):
+    minus_120_years = now().date().replace(year=now().year-120)
+    if (value > now().date()) or (value < minus_120_years):
+        raise ValidationError("Enter your real date of birth!")
+    return "OK"
 
 
 def valid_name(val):

@@ -10,7 +10,7 @@ class TestValidators(TestCase):
         UserData.objects.create(
             first_name="Andrei11",
             last_name="Herasko22",
-            date_of_birth='1998-02-23',
+            date_of_birth='2017-05-23',
             bio="bio",
             email="andrey.herasmail.com",
             jabber="hectorcc.co",
@@ -46,4 +46,11 @@ class TestValidators(TestCase):
         with self.assertRaisesMessage(
                 ValidationError,
                 'Enter a valid skype.'):
+            self.data.clean_fields()
+
+    def test_validate_date_of_birth(self):
+        """check date validation"""
+        with self.assertRaisesMessage(
+                ValidationError,
+                'Enter your real date of birth!'):
             self.data.clean_fields()
