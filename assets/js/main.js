@@ -21,6 +21,13 @@ function set_current_window() {
 	$('title').text("Requests");
 }
 
+function read_localstorage(){
+        if (localStorage.UnreadRequests == undefined) {
+            localStorage.UnreadRequests = 0;
+        };
+        title(parseInt(localStorage.UnreadRequests)+1);
+    };
+
 function update() {
     $.ajax({
         'dataType': 'json',
@@ -44,8 +51,7 @@ function update() {
 }
 
 $(document).ready(function(){
-    update();
-    title(parseInt(localStorage.UnreadRequests)+1);
+    read_localstorage();
     window.addEventListener('storage', function(event) {
          if (localStorage.UnreadRequests == '0') {
 			new_requests = 0;
