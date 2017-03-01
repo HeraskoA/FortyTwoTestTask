@@ -29,7 +29,7 @@ class TestEdit(TestCase):
 
     def get_photo(self, width=400, height=400):
         photo = BytesIO()
-        image = Image.new("RGBA", (width, height), (256, 0, 0))
+        image = Image.new("RGB", (width, height), (256, 0, 0))
         image.save(photo, "JPEG")
         photo.name = 'test.jpeg'
         photo.seek(0)
