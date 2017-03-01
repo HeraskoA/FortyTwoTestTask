@@ -27,13 +27,14 @@
             <td>{{ req.path }} </td>
             <td>{{ req.method }}</td>
             <td>{{ req.time|date:"c"|slice:":12" }}</td>
-			
-<form action="{% url 'requests' %}" method="post">
+		<td>
+{{ req.priority }}
+<form id='priority_form' action="{% url 'requests' %}" method="post">
 {% csrf_token %}
-	    <td><input id="id_priority" min="0" name="priority" type="number" value="{{req.priority}}" /> <button type="submit" name="req_id"   value="{{ req.id }}" class="btn btn-default">Sign in</button>
-	    </td>
+	    <input id="id_priority" min="0" name="priority" type="number" value="" /> <button type="submit" name="req_id" value="{{ req.id }}" class="btn btn-default">Submit</button>
+	    
 </form>
-
+		</td>
         </tr>
 {% endfor %}
 
