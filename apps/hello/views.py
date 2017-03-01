@@ -14,7 +14,7 @@ def home(request):
 def requests(request):
     requests = list(Request.objects.all().order_by('-id')[:10])
     if request.is_ajax():
-        difference = Request.objects.count() - int(request.GET.get('temp'))
+        difference = Request.objects.count() - int(request.GET.get('frontend_requests'))
         return HttpResponse(
             json.dumps(serialize("json", requests[:difference])),
             content_type="application/json"

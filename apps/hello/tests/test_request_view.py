@@ -27,7 +27,7 @@ class TestRequestView(TestCase):
             Request.objects.create(path='/' + str(i) + '/', method='GET')
         response = self.client.get(
             path=reverse('requests'),
-            data=dict(temp='6'),
+            data=dict(frontend_requests='6'),
             HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
         response_requests = json.loads(response.content)

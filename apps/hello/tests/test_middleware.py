@@ -34,7 +34,7 @@ class TestMiddlware(TestCase):
         """ajax request, that has 'temp' argument should not be saved"""
         self.client.get(
             path=reverse('requests'),
-            data=dict(temp='6'),
+            data=dict(frontend_requests='6'),
             HTTP_X_REQUESTED_WITH='XMLHttpRequest'
         )
         self.assertEqual(Request.objects.count(), 0)

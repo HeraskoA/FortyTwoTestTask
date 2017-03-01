@@ -2,9 +2,9 @@
 from hello.models import Request
 
 
-class SaveRequest(object):
+class SaveRequestMiddleware(object):
     def process_request(self, request):
-        if not (request.is_ajax() and request.GET.get('temp')):
+        if not (request.is_ajax() and request.GET.get('frontend_requests')):
             data = {}
             data['path'] = request.path
             data['method'] = request.method

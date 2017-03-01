@@ -45,9 +45,10 @@ class Testdata(TestCase):
 class TestRequestModel(TestCase):
 
     def setUp(self):
-        self.client = Client()
-        self.url = reverse('home')
-        self.client.get(self.url)
+        Request.objects.create(
+            path="/",
+            method="GET",
+        )
 
     def test_model(self):
         """Check models field"""
