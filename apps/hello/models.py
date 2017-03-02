@@ -59,7 +59,7 @@ class Request(models.Model):
     time = models.TimeField(blank=True, auto_now=True)
 
 
-class Signal(models.Model):
+class ActionHistory(models.Model):
     object_type = models.CharField(max_length=256)
     object_id = models.IntegerField()
     action = models.CharField(max_length=10)
@@ -67,13 +67,13 @@ class Signal(models.Model):
 
 @receiver(post_save)
 def save(sender, **kwargs):
-    if sender.__name__ not in ['Signal', 'Session']:
+    if sender.__name__ not in ['ActionHistory', 'Session']:
         if not kwargs.get('created'):
             action = 'update'
         else:
             action = 'created'
         objects_id = kwargs.get('instance').id
-        Signal.objects.create(object_type=sender.__name__,
+        ActionHistory.objects.create(object_type=sender.__name__,
                               object_id=objects_id,
                               action=action
                               )
@@ -82,9 +82,9 @@ def save(sender, **kwargs):
 
 @receiver(pre_delete)
 def deleted(sender, **kwargs):
-    if sender.__name__ not in ['Signal', 'Session']:
+    if sender.__name__ not in ['ActionHistory', 'Session']:
         objects_id = kwargs.get('instance').id
-        Signal.objects.create(object_type=sender.__name__,
+        ActionHistory.objects.create(object_type=sender.__name__,
                               object_id=objects_id,
                               action='deleted'
                               )
