@@ -66,26 +66,26 @@ class ActionHistory(models.Model):
 
 
 @receiver(post_save)
-def save(sender, **kwargs):
+def save(sender, instance=None, created=None, **kwargs):
     if sender.__name__ not in ['ActionHistory', 'Session']:
-        if not kwargs.get('created'):
+        if not created:
             action = 'update'
         else:
             action = 'created'
-        objects_id = kwargs.get('instance').id
+        objects_id = instance.id
         ActionHistory.objects.create(object_type=sender.__name__,
-                              object_id=objects_id,
-                              action=action
-                              )
+                                     object_id=objects_id,
+                                     action=action
+                                     )
     return
 
 
 @receiver(pre_delete)
-def deleted(sender, **kwargs):
+def deleted(sender, instance=None, **kwargs):
     if sender.__name__ not in ['ActionHistory', 'Session']:
-        objects_id = kwargs.get('instance').id
+        objects_id = instance.id
         ActionHistory.objects.create(object_type=sender.__name__,
-                              object_id=objects_id,
-                              action='deleted'
-                              )
+                                     object_id=objects_id,
+                                     action='deleted'
+                                     )
     return
