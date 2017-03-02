@@ -6,7 +6,9 @@
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script type="text/javascript">
-        count = {{ count }}
+        token = "{% csrf_token %}";
+        var count = {{ count }};
+        {% if sort != "" %}sort = {{sort}}{% else %}sort = false{%endif%}
         </script>
 	<script src="{% static 'js/main.js' %}"></script>
 {% endblock extra_head %}
@@ -31,7 +33,7 @@
 {{ req.priority }}
 <form id='priority_form' action="{% url 'requests' %}" method="post">
 {% csrf_token %}
-	    <input id="id_priority" min="0" name="priority" type="number" value="" /> <button type="submit" name="req_id" value="{{ req.id }}" class="btn btn-default">Submit</button>
+	    <input id="id_priority" min="0" name="priority" type="number" value="{{req.priority}}" /> <button type="submit" name="req_id" value="{{ req.id }}" class="btn btn-default">Submit</button>
 	    
 </form>
 		</td>

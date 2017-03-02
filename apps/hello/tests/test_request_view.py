@@ -71,6 +71,11 @@ class TestRequestView(TestCase):
         requests.reverse()
         self.assertEqual(list(response.context['requests']), list(requests))
 
+    def test_sort_ease(self):
+        """test in case objects are sorted in ascending"""
+        response = self.client.get('%s?order=0' % reverse('requests'))
+        self.assertEqual(response.context['sort'], 1)
+
     def test_view_template(self):
         """check the use of the correct template"""
         response = self.client.get(reverse('requests'))

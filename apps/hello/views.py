@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from hello.models import UserData, Request
 from django.core.serializers import serialize
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 import json
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
@@ -24,21 +24,31 @@ def requests(request):
             json.dumps(serialize("json", requests[:difference])),
             content_type="application/json"
         )
-    if request.GET.get('order'):
-        sort = request.GET.get('order')
-        if sort == '1':
-            requests = Request.objects.all().order_by('-priority','-id')
-        if sort == '0':
-            requests = Request.objects.all().order_by('priority', '-id')
-	requests = requests[:10]
+    if request.method == "POST":
+        instance_id = int(request.POST.get('req_id'))
+        instance = Request.objects.get(id=instance_id)
+        try:
+            instance.priority = int(request.POST['priority'])
+            instance.save()
+        except Exception:
+            return HttpResponseRedirect('%s?error=Enter a valid priority' % reverse('requests'))
+        else:
+            return HttpResponseRedirect(reverse('requests'))       
     else:
-        sort = ""
-    requests.reverse()
-    return render(request, 'requests.html', {
-        "requests": requests,
-        "count": Request.objects.count(),
-        "sort": sort
-    })
+        if request.GET.get('order'):
+            sort = request.GET.get('order')
+            requests = sorted(requests, key = lambda k: k.priority)
+            if sort == '0':
+                requests.reverse()
+        else:
+            sort = ""
+        requests.reverse()
+        return render(request, 'requests.html', {
+            "requests": requests,
+            "count": Request.objects.count(),
+            "sort": sort
+        })
+
 
 
 class Edit(UpdateView):
