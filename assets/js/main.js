@@ -40,7 +40,7 @@ $(document).ready(function(){
     function get_index_of_min_element() {
         min_id = Number.MAX_VALUE;
         index_min_elem = 0;
-        for (var i = 0; $('.request').length < 10; i++) {
+        for (var i = 0; i < $('.request').length; i++) {
             if ($('button[name="req_id"]').eq(i).val() < min_id) {
                 min_id = $('button[name="req_id"]').eq(i).val();
                 index_min_elem = i;
