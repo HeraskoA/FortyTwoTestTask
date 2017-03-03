@@ -60,33 +60,33 @@ class Request(models.Model):
     priority = models.PositiveSmallIntegerField(default=1)
 
 
-class Signal(models.Model):
+class ActionHistory(models.Model):
     object_type = models.CharField(max_length=256)
     object_id = models.IntegerField()
     action = models.CharField(max_length=10)
 
 
 @receiver(post_save)
-def save(sender, **kwargs):
-    if sender.__name__ not in ['Signal', 'Session']:
-        if not kwargs.get('created'):
+def save(sender, instance=None, created=None, **kwargs):
+    if sender.__name__ not in ['ActionHistory', 'Session']:
+        if not created:
             action = 'update'
         else:
             action = 'created'
-        objects_id = kwargs.get('instance').id
-        Signal.objects.create(object_type=sender.__name__,
-                              object_id=objects_id,
-                              action=action
-                              )
+        objects_id = instance.id
+        ActionHistory.objects.create(object_type=sender.__name__,
+                                     object_id=objects_id,
+                                     action=action
+                                     )
     return
 
 
 @receiver(pre_delete)
-def deleted(sender, **kwargs):
-    if sender.__name__ not in ['Signal', 'Session']:
-        objects_id = kwargs.get('instance').id
-        Signal.objects.create(object_type=sender.__name__,
-                              object_id=objects_id,
-                              action='deleted'
-                              )
+def deleted(sender, instance=None, **kwargs):
+    if sender.__name__ not in ['ActionHistory', 'Session']:
+        objects_id = instance.id
+        ActionHistory.objects.create(object_type=sender.__name__,
+                                     object_id=objects_id,
+                                     action='deleted'
+                                     )
     return

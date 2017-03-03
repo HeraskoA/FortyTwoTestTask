@@ -29,7 +29,7 @@ class TestEdit(TestCase):
 
     def get_photo(self, width=400, height=400):
         photo = BytesIO()
-        image = Image.new("RGBA", (width, height), (256, 0, 0))
+        image = Image.new("RGB", (width, height), (256, 0, 0))
         image.save(photo, "JPEG")
         photo.name = 'test.jpeg'
         photo.seek(0)
@@ -88,7 +88,7 @@ class TestEdit(TestCase):
                 "email": "emailaasfru",
                 "jabber": "jabber",
                 "date_of_birth": 12312312,
-                "skype": "кпиыв",
+                "skype": "afs%%",
                 "other_contacts": "other_contacts",
                 "bio": "bio",
                 "photo": self.get_photo()
@@ -108,7 +108,7 @@ class TestEdit(TestCase):
         self.assertNotEqual(data.email, 'emailaasfru')
         self.assertNotEqual(data.jabber, 'jabber')
         self.assertNotEqual(data.date_of_birth, 12312312)
-        self.assertNotEqual(data.skype, 'кпиыв')
+        self.assertNotEqual(data.skype, 'afs%%')
 
     def test_save_ajax(self):
         """"check save edited data in case ajax request"""

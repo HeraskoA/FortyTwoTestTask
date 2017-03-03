@@ -16,6 +16,29 @@ def home(request):
     return render(request, 'user_data.html', {"data": data})
 
 
+def requests_post(request):
+    instance_id = int(request.POST.get('req_id'))
+    instance = Request.objects.get(id=instance_id)
+    if request.POST.get('order'):
+        sort = str('&order=' + request.POST.get('order'))
+    else:
+        sort = ""
+    try:
+        instance.priority = int(request.POST['priority'])
+        if instance.priority < 1:
+            raise Exception()
+    except Exception:
+        return HttpResponseRedirect(
+            '%s?message=Enter a valid priority'
+            % reverse('requests') + sort
+            )
+    else:
+        instance.save()
+        return HttpResponseRedirect(
+            '%s?message=Saved' % reverse('requests') + sort
+            )
+
+
 def requests(request):
     requests = list(Request.objects.all().order_by('-id')[:10])
     if request.is_ajax():
@@ -25,30 +48,18 @@ def requests(request):
             content_type="application/json"
         )
     if request.method == "POST":
-        instance_id = int(request.POST.get('req_id'))
-        instance = Request.objects.get(id=instance_id)
-        try:
-            instance.priority = int(request.POST['priority'])
-            instance.save()
-        except Exception:
-            return HttpResponseRedirect('%s?error=Enter a valid priority' % reverse('requests'))
-        else:
-            return HttpResponseRedirect(reverse('requests'))       
+        return requests_post(request)
     else:
         if request.GET.get('order'):
-            sort = request.GET.get('order')
-            requests = sorted(requests, key = lambda k: k.priority)
-            if sort == '0':
+            sort = int(request.GET.get('order'))
+            requests = sorted(requests, key=lambda k: k.priority)
+            if sort == 0:
                 requests.reverse()
-        else:
-            sort = ""
         requests.reverse()
         return render(request, 'requests.html', {
-            "requests": requests,
-            "count": Request.objects.count(),
-            "sort": sort
-        })
-
+            'count': Request.objects.count(),
+            'requests': requests
+            })
 
 
 class Edit(UpdateView):

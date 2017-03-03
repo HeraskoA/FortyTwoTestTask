@@ -1,15 +1,15 @@
 #head {
-	padding-left: 90px;
+    padding-left: 90px;
 }
 .contacts {
-    	font-size: 16pt;
+    font-size: 16pt;
 }
 .row{
-	padding: 8px;
+    padding: 8px;
 }
 .requests {
-    	font-size: 16pt;
-	padding-left: 90px;
+        font-size: 16pt;
+    padding-left: 90px;
 }
 .form-control{
     width: 280px;
@@ -18,7 +18,7 @@
     background: red;
 }
 .buttons {
-	padding-left: 80px;
+    padding-left: 80px;
     width: 400px;
 }
 .photo {
@@ -31,17 +31,21 @@
     padding-left: 30px;
 }
 .error {
-	position: right;
-	width: 160px;
-	height: 15px;
-	position: relative; 
-	bottom: 28px;
+    position: right;
+    width: 160px;
+    height: 15px;
+    position: relative; 
+    bottom: 28px;
 }
 #id_priority {
-	width: 50px;
+    width: 50px;
 }
 #priority_form {
-	margin-left: 90px;
-	display:inline-block;
+    margin-left: 90px;
+    display:inline-block;
+}
+#alert{
+    margin-left: 90px;
+    width: 520px;
 }
 

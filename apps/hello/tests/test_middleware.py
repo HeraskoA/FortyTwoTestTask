@@ -18,7 +18,7 @@ class TestMiddlware(TestCase):
 
     def test_post_requests(self):
         """check storing post requests"""
-        response = self.client.post(reverse('requests'))
+        response = self.client.post(reverse('requests'), {'req_id': 1})
         request = Request.objects.first()
         self.assertEqual(response.request['PATH_INFO'], request.path)
         self.assertEqual(response.request['REQUEST_METHOD'], request.method)

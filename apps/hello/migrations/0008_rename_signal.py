@@ -8,16 +8,10 @@ from django.db import models
 class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        # Adding field 'Request.priority'
-        db.add_column(u'hello_request', 'priority',
-                      self.gf('django.db.models.fields.PositiveSmallIntegerField')(default=1),
-                      keep_default=False)
-
+        db.rename_table('hello_signal', 'hello_actionhistory')
 
     def backwards(self, orm):
-        # Deleting field 'Request.priority'
-        db.delete_column(u'hello_request', 'priority')
-
+        pass
 
     models = {
         u'hello.request': {
@@ -25,11 +19,10 @@ class Migration(SchemaMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'method': ('django.db.models.fields.CharField', [], {'max_length': '60', 'blank': 'True'}),
             'path': ('django.db.models.fields.CharField', [], {'max_length': '60', 'blank': 'True'}),
-            'priority': ('django.db.models.fields.PositiveSmallIntegerField', [], {'default': '1'}),
             'time': ('django.db.models.fields.TimeField', [], {'auto_now': 'True', 'blank': 'True'})
         },
         u'hello.signal': {
-            'Meta': {'object_name': 'Signal'},
+            'Meta': {'object_name': 'ActionHistory'},
             'action': ('django.db.models.fields.CharField', [], {'max_length': '10'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'object_id': ('django.db.models.fields.IntegerField', [], {}),
