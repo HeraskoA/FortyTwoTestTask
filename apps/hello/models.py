@@ -68,7 +68,10 @@ class ActionHistory(models.Model):
 
 @receiver(post_save)
 def save(sender, instance=None, created=None, **kwargs):
-    if sender.__name__ not in ['ActionHistory', 'Session']:
+    if sender.__name__ not in ['ActionHistory',
+                               'Session',
+                               'ContentType',
+                               'MigrationHistory']:
         if not created:
             action = 'update'
         else:
@@ -83,7 +86,10 @@ def save(sender, instance=None, created=None, **kwargs):
 
 @receiver(pre_delete)
 def deleted(sender, instance=None, **kwargs):
-    if sender.__name__ not in ['ActionHistory', 'Session']:
+    if sender.__name__ not in ['ActionHistory',
+                               'Session',
+                               'ContentType',
+                               'MigrationHistory']:
         objects_id = instance.id
         ActionHistory.objects.create(object_type=sender.__name__,
                                      object_id=objects_id,
