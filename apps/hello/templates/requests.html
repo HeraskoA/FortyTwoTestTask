@@ -24,7 +24,13 @@
             <tr>
                 <th>Path</th>
                 <th>Method</th>	
-                <th>Time</th>
+                <th>Time
+                {% if request.GET.order %}
+                <a href="{% url 'requests' %}">&uarr;&darr;</a>
+                {% else %}
+                &uarr;
+                {% endif %}
+                </th>
                 <th>Priority
                 {% if request.GET.order == '1' %}
                 <a href="{% url 'requests' %}?order=0">&uarr;</a>{% elif request.GET.order == '0' %}
