@@ -88,7 +88,7 @@ class TestEdit(TestCase):
                 "email": "emailaasfru",
                 "jabber": "jabber",
                 "date_of_birth": 12312312,
-                "skype": "qwer%%",
+                "skype": "йцук",
                 "other_contacts": "other_contacts",
                 "bio": "bio",
                 "photo": self.get_photo()
@@ -108,7 +108,7 @@ class TestEdit(TestCase):
         self.assertNotEqual(data.email, 'emailaasfru')
         self.assertNotEqual(data.jabber, 'jabber')
         self.assertNotEqual(data.date_of_birth, 12312312)
-        self.assertNotEqual(data.skype, 'qwer%%')
+        self.assertNotEqual(str(data.skype), 'йцук')
 
     def test_save_ajax(self):
         """"check save edited data in case ajax request"""
