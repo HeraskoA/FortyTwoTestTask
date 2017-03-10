@@ -2,7 +2,7 @@
 from django.shortcuts import render
 from hello.models import UserData, Request
 from django.core.serializers import serialize
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse
 import json
 from django.core.urlresolvers import reverse
 from django.utils.decorators import method_decorator
@@ -19,36 +19,34 @@ def home(request):
 def requests_post(request):
     instance_id = int(request.POST.get('req_id'))
     instance = Request.objects.get(id=instance_id)
-    if request.POST.get('order'):
-        sort = str('&order=' + request.POST.get('order'))
-    else:
-        sort = ""
     try:
-        instance.priority = int(request.POST['priority'])
+        instance.priority = int(request.POST.get('priority'))
         if instance.priority < 1:
             raise Exception()
     except Exception:
-        return HttpResponseRedirect(
-            '%s?message=Enter a valid priority'
-            % reverse('requests') + sort
-            )
+        return HttpResponse(
+            json.dumps(0),
+            content_type="application/json"
+        )
     else:
         instance.save()
-        return HttpResponseRedirect(
-            '%s?message=Saved' % reverse('requests') + sort
-            )
+        return HttpResponse(
+            json.dumps(1),
+            content_type="application/json"
+        )
 
 
 def requests(request):
     requests = list(Request.objects.all().order_by('-id')[:10])
     if request.is_ajax():
-        difference = Request.objects.count() - int(request.GET.get('temp'))
-        return HttpResponse(
-            json.dumps(serialize("json", requests[:difference])),
-            content_type="application/json"
-        )
-    if request.method == "POST":
-        return requests_post(request)
+        if request.method == "POST":
+            return requests_post(request)
+        else:
+            difference = Request.objects.count() - int(request.GET.get('temp'))
+            return HttpResponse(
+                json.dumps(serialize("json", requests[:difference])),
+                content_type="application/json"
+            )
     else:
         if request.GET.get('order'):
             sort = int(request.GET.get('order'))

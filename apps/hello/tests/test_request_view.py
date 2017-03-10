@@ -77,74 +77,71 @@ class TestRequestView(TestCase):
         requests = sorted(requests, key=lambda k: k.priority)
         self.assertEqual(list(response.context['requests']), list(requests))
 
-    def test_post_request_priority(self):
+    def test_save_priority(self):
         """check save priority"""
         self.create_requests()
-        self.client.post(reverse('requests'), {
-            'order': "",
-            'priority': 5,
-            'req_id': 1
-        }, follow=True)
+        self.client.post(
+            path=reverse('requests'),
+            data={
+                'priority': 5,
+                'req_id': 1
+                },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+            )
         request = Request.objects.get(id=1)
         self.assertEqual(request.priority, 5)
 
     def test_validation_priority(self):
         """check priority validation"""
         self.create_requests()
-        self.client.post(reverse('requests'), {
-            'order': "",
-            'priority': 'lol',
-            'req_id': 1
-        }, follow=True)
+        self.client.post(
+            path=reverse('requests'),
+            data={
+                'priority': 'lol',
+                'req_id': 1
+                },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+            )
         request = Request.objects.get(id=1)
         self.assertNotEqual(request.priority, 'lol')
-        self.client.post(reverse('requests'), {
-            'order': "",
-            'priority': -5,
-            'req_id': 1
-        }, follow=True)
+        self.client.post(
+            path=reverse('requests'),
+            data={
+                'priority': -5,
+                'req_id': 1
+                },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+            )
         request = Request.objects.get(id=1)
         self.assertNotEqual(request.priority, -5)
 
-    def test_redirect_save(self):
-        """check redirect in case saved priority"""
+    def test_json_response_save(self):
+        """check json response in case valid priority"""
         self.create_requests()
-        response = self.client.post(reverse('requests'), {
-            'priority': 5,
-            'req_id': 1
-        }, follow=True)
-        self.assertRedirects(response,
-                             '%s?message=Saved' % reverse('requests'),
-                             status_code=302
-                             )
+        response = self.client.post(
+            path=reverse('requests'),
+            data={
+                'priority': 5,
+                'req_id': 1
+                },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+            )
+        response = json.loads(response.content)
+        self.assertEqual(1, response)
 
-    def test_displaing_message(self):
-        """check displaying status message"""
-        response = self.client.get('%s?message=TextText' % reverse('requests'))
-        self.assertIn('TextText', response.content)
-
-    def test_redirect_previous_page(self):
-        """check redirect to the previous page (in the previous sort order)"""
+    def test_json_response_invalid(self):
+        """check json response in case invadid priority"""
         self.create_requests()
-        response = self.client.post(reverse('requests'), {
-            'order': 1,
-            'priority': 5,
-            'req_id': 1
-        }, follow=True)
-        url = "%s?message=Saved&order=1" % reverse('requests')
-        url = url.replace(" ", "%20")
-        self.assertRedirects(response, url, status_code=302)
-
-    def test_redirect_invalid(self):
-        """check redirect in case invalid priority"""
-        self.create_requests()
-        response = self.client.post(reverse('requests'), {
-            'priority': 'saf',
-            'req_id': 1
-        }, follow=True)
-        url = "%s?message=Enter a valid priority" % reverse('requests')
-        url = url.replace(" ", "%20")
-        self.assertRedirects(response, url, status_code=302)
+        response = self.client.post(
+            path=reverse('requests'),
+            data={
+                'priority': -5,
+                'req_id': 1
+                },
+            HTTP_X_REQUESTED_WITH='XMLHttpRequest'
+            )
+        response = json.loads(response.content)
+        self.assertEqual(0, response)
 
     def test_view_template(self):
         """check the use of the correct template"""

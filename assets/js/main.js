@@ -2,6 +2,27 @@ $(document).ready(function(){
     var in_current_window = false;
     var new_requests = 0
 
+    function form(){
+        $('form').ajaxForm({
+            'success': function(data, status, xhr, form) {
+                var id = form.find("button[name='req_id']").val();
+                var new_priority = form.find("input[name='priority']").val();
+                $("div[id="+ id +"]").html(new_priority);
+                if (sort != null) {
+                    var request = $("div[id="+ id +"]").parent().parent();
+                    paste_request(request);
+                }
+                if (data == '1'){
+                    $('#alert').find('div').text('Saved');
+                }else{
+                    $('#alert').find('div').text('Enter a valid priority');
+                }
+                $('#alert').show();
+                setTimeout(function(){$('#alert').hide()}, 3000);
+            }
+        });
+    }
+
     function del_elem(index) {
         if ($('.request').length >= 10) {
             $('.request')[index].remove();
@@ -10,21 +31,21 @@ $(document).ready(function(){
 
     function paste_request(request) {
         var index = 0;
-        const_priority = request.find("input[name='priority']").val();
+        fixed_priority = parseInt(request.find("input[name='priority']").val());
         while (1) {
-            current_priority = $('.request').eq(index).find("input[name='priority']").val();
+            current_priority = parseInt($('.request').eq(index).find("input[name='priority']").val());
             if (sort == 0) {
-                if (const_priority < current_priority) {
+                if (fixed_priority < current_priority) {
                     $('.request').eq(index).before(request);
                     break;
                 };
             }else{
-                if (const_priority > current_priority) {
+                if (fixed_priority > current_priority) {
                     $('.request').eq(index).before(request);
                     break;
                 }
             };
-                if (const_priority == current_priority) {
+                if (fixed_priority == current_priority) {
                     if (index == ($('.request').length - 1)) {
                         $('tbody').append(request);
                         break;
@@ -56,10 +77,10 @@ $(document).ready(function(){
                 data.fields.path + "</td><td>" +
                 data.fields.method + "</td><td>" +
                 data.fields.time + "</td><td>" +
-                data.fields.priority + "<form id='priority_form' action='/requests/' method='post'>" + 
-                token + "<input type='hidden' value="+ sort +" name='sort'>"+
-                "<input id='id_priority' min='1' name='priority' type='number' value="+
-                data.fields.priority +" /><button type='submit' name='req_id' value=" + 
+                "<div class='priority' id="+ data.pk +">"+ data.fields.priority+"</div>"+
+                "&nbsp;<form id='priority_form' action='/requests/' method='post'>" + 
+                token + "<input id='id_priority' min='1' name='priority' type='number' value="+
+                data.fields.priority +" />&nbsp;<button type='submit' name='req_id' value=" + 
                 data.pk + " class='btn" + " btn-default'>Submit</button></form></td>")
         return $(request)
     }
@@ -110,11 +131,13 @@ $(document).ready(function(){
                             $('tbody').append(get_request(this));
                         }else{
                             paste_request(get_request(this));
-                        } 
+                        }
+                        form();
                     });
                 }}
             })
         }, 1000);
+    form();
     $(window).focus(function() {
         set_current_window();
     });
