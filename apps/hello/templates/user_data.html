@@ -9,10 +9,9 @@
 	<div class="container contacts">
 		<div class="row">
 				<div class='admin' align=right >
-				{% if data %}
-            			<a href="{% edit_link data %}">(admin)</a> |
-            			{% endif %}
+            	<a href="{% edit_link data %}">(admin)</a> |
 				{% if user.is_authenticated %}
+				<a href="{% url 'chat' %}">Chat</a> |
 				<a href="{% url 'users:auth_logout' %}">Logout</a> | <a href="{% url 'edit' 1 %}">Edit</a>
 				{% else %}
 				<a href="{% url 'users:auth_login' %}">Login</a>

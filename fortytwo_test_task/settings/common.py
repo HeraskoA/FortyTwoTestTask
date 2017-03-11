@@ -47,6 +47,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'south',
     'apps.hello',
+    'apps.chat',
     'registration',
 )
 

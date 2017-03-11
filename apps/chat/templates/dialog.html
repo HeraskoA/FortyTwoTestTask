@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block meta_title %}Chat{% endblock meta_title %}
+{% block title %}Chat{% endblock title %}
+{% block extra_head %}
+	<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script src="{% static 'js/chat.js' %}"></script>
+    <script type="text/javascript">
+       var count = {{ count }}
+    </script>
+{% endblock extra_head %}
+{% block content %}
+<hr>
+<div id='chat_window'>
+	<strong id='interlocutor'>  {{interlocutor}}</strong>
+	<div id="chat-messages" class="chat-messages well">
+        <div class="message">
+		{% for message in messages %}
+            <p><address>{{ message.sender }}</address>
+			<span>{{ message.text }}</span>
+			<div id='date'>{{ message.date|date:"G:i" }}</div>
+ 			{% endfor %}
+        </div>   
+	</div>
+	<form action="{{ request.path }}" method="post">
+	{% csrf_token %}
+		<div class="form-group">
+			<label for="exampleTextarea">Message</label>
+			<textarea onkeypress="if(event.keyCode==13) {submit()}" class="form-control" name="message" id="exampleTextarea" rows="3"></textarea>
+		</div>
+	<input type="submit" class="btn btn-primary" value="Submit" name="submit_button">
+	<a class="btn btn-default" href="{% url 'chat' %}" >Back</a>
+	</form>
+</div>
+{% endblock content %}

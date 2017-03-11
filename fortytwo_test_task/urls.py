@@ -1,5 +1,6 @@
 from django.conf.urls import patterns, include, url
 from hello import views
+from chat import views as chat_views
 from django.contrib import admin
 from .settings.common import MEDIA_ROOT
 from django.contrib.auth import views as auth_views
@@ -16,6 +17,8 @@ urlpatterns = patterns(
     url(r'^requests/$', views.requests, name='requests'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^edit/(?P<pk>\d+)/', views.Edit.as_view(), name='edit'),
+    url(r'^chat/$', chat_views.chat, name='chat'),
+    url(r'^chat/dialog/(?P<pk>\d+)/$', chat_views.dialog, name='dialog'),
     url(
         r'^users/logout/$',
         auth_views.logout,
