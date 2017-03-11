@@ -1,6 +1,14 @@
 $(document).ready(function(){
+    var pubnub = new PubNub({ publishKey : 'pub-c-154a7313-6d0a-4b45-bc9a-4464eb536bc8', subscribeKey : 'sub-c-49c47702-067f-11e7-b34d-02ee2ddab7fe' });
+
     var in_current_window = false;
     var new_requests = 0
+
+    pubnub.addListener({
+          message: function(obj) {
+            update();
+          }});
+    pubnub.subscribe({channels:["requests"]});
 
     function title(count_of_requests) {
         if (!in_current_window && count_of_requests != 0) {
@@ -20,7 +28,7 @@ $(document).ready(function(){
         if (localStorage.UnreadRequests == undefined) {
             localStorage.UnreadRequests = 0;
         };
-        title(parseInt(localStorage.UnreadRequests)+1);
+        title(parseInt(localStorage.UnreadRequests));
     }
 
     read_localstorage();
@@ -30,7 +38,7 @@ $(document).ready(function(){
             $('title').text("Requests");
         }
     });
-    setInterval(function update() {
+    function update() {
         $.ajax({
             'dataType': 'json',
             'type': 'get',
@@ -52,7 +60,7 @@ $(document).ready(function(){
                     });
                 }}
             })
-        }, 1000);
+    }
     $(window).focus(function() {
         set_current_window();
     });
