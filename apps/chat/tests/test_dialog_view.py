@@ -48,7 +48,17 @@ class TestDialogView(TestCase):
                 message.sender.username.encode('ascii', 'ignore'),
                 response.content
                 )
+
+    def test_context(self):
+        """check response context"""
+        self.create_messages()
+        sender2 = User.objects.last()
+        dialog = Dialog.objects.first()
+        response = self.client.get(self.url)
         self.assertEqual(len(response.context['messages']), 20)
+        self.assertEqual(response.context['count'], 20)
+        self.assertEqual(response.context['channel'], "dialog:%s" % dialog.id)
+        self.assertEqual(response.context['interlocutor'], sender2)
 
     def test_save_message(self):
         """check saving message"""

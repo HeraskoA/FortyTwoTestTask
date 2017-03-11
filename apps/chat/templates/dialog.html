@@ -7,9 +7,11 @@
 	<script src="https://code.jquery.com/jquery-2.2.4.js"></script>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 	<script src="http://cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.min.js"></script>
+	<script src=https://cdn.pubnub.com/sdk/javascript/pubnub.4.0.11.min.js></script>
 	<script src="{% static 'js/chat.js' %}"></script>
     <script type="text/javascript">
-       var count = {{ count }}
+       var count = {{ count }};
+       var channel = "{{channel}}"
     </script>
 {% endblock extra_head %}
 {% block content %}

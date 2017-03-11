@@ -60,4 +60,6 @@ def dialog(request, pk):
         return render(request, 'dialog.html', {
             'messages': messages,
             'interlocutor': user2,
-            'count': count})
+            'count': count,
+            'channel': "dialog:%s" % dialog.id
+            })
