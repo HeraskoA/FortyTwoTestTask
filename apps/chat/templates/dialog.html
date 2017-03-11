@@ -29,7 +29,7 @@
 	{% csrf_token %}
 		<div class="form-group">
 			<label for="exampleTextarea">Message</label>
-			<textarea onkeypress="if(event.keyCode==13) {submit()}" class="form-control" name="message" id="exampleTextarea" rows="3"></textarea>
+			<textarea onkeypress="if(event.keyCode==13) {$('form').submit()}" class="form-control" name="message" id="exampleTextarea" rows="3"></textarea>
 		</div>
 	<input type="submit" class="btn btn-primary" value="Submit" name="submit_button">
 	<a class="btn btn-default" href="{% url 'chat' %}" >Back</a>
