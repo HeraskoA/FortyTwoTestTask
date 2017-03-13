@@ -32,7 +32,7 @@ class TestHomeView(TestCase):
         self.assertNotIn('Herasko', response.content)
 
     def test_home_view_one_object(self):
-        """database coitains 1 object, must be present data in the page"""
+        """there is 1 object in db, must be present only the first"""
         self.create_obj()
         response = self.client.get(self.url)
         self.assertEqual(response.status_code, 200)
@@ -51,7 +51,7 @@ class TestHomeView(TestCase):
         self.assertIn('ander2299', response.content)
 
     def test_home_view_two_object(self):
-        """database coitains 2 objects, must be present only the first"""
+        """there are 2 objects in db, must be present only the first"""
         self.create_obj()
         UserData.objects.create(
             first_name="aaaaaa",
