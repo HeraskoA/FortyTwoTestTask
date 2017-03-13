@@ -51,6 +51,9 @@ $(document).ready(function(){
         return false;
     }
     form();
+    $('input').keyup(function(){
+        $(this).removeClass('has-error');
+    });
     $("#id_photo").change(function(){
         ImagePreview(this);
     });
