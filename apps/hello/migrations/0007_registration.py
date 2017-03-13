@@ -1,19 +1,26 @@
 # -*- coding: utf-8 -*-
 from south.utils import datetime_utils as datetime
 from south.db import db
-from south.v2 import DataMigration
+from south.v2 import SchemaMigration
 from django.db import models
 
-class Migration(DataMigration):
+
+class Migration(SchemaMigration):
 
     def forwards(self, orm):
-        "Write your forwards methods here."
-        # Note: Don't use "from appname.models import ModelName". 
-        # Use orm.ModelName to refer to models in this application,
-        # and orm['appname.ModelName'] for models in other applications.
+        # Adding model 'RegistrationProfile'
+        db.create_table(u'registration_registrationprofile', (
+            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
+            ('user', self.gf('django.db.models.fields.related.OneToOneField')(to=orm['auth.User'], unique=True)),
+            ('activation_key', self.gf('django.db.models.fields.CharField')(max_length=40)),
+        ))
+        db.send_create_signal(u'registration', ['RegistrationProfile'])
+
 
     def backwards(self, orm):
-        "Write your backwards methods here."
+        # Deleting model 'RegistrationProfile'
+        db.delete_table(u'registration_registrationprofile')
+
 
     models = {
         u'auth.group': {
@@ -51,8 +58,13 @@ class Migration(DataMigration):
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
+        },
+        u'registration.registrationprofile': {
+            'Meta': {'object_name': 'RegistrationProfile'},
+            'activation_key': ('django.db.models.fields.CharField', [], {'max_length': '40'}),
+            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
+            'user': ('django.db.models.fields.related.OneToOneField', [], {'to': u"orm['auth.User']", 'unique': 'True'})
         }
     }
 
-    complete_apps = ['auth']
-    symmetrical = True
+    complete_apps = ['registration']

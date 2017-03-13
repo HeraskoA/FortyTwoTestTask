@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
-from hello.models import UserData, Request
+from hello.models import UserData, Request, ActionHistory
 from django.db.models import (CharField, ImageField,
                               DateField, TimeField,
-                              TextField, EmailField)
+                              TextField, EmailField,
+                              IntegerField)
 
 
 class Testdata(TestCase):
-
     def setUp(self):
         UserData.objects.create(
             first_name="Andrei",
@@ -44,7 +44,6 @@ class Testdata(TestCase):
 
 
 class TestRequestModel(TestCase):
-
     def setUp(self):
         Request.objects.create(
             path="/",
@@ -60,3 +59,20 @@ class TestRequestModel(TestCase):
         self.assertEqual(type(method), CharField)
         self.assertEqual(type(path), CharField)
         self.assertEqual(type(time), TimeField)
+
+
+class TestSignalModel(TestCase):
+    def test_model(self):
+        """Check models fields"""
+        ActionHistory.objects.create(
+            object_type='User',
+            object_id=1,
+            action='create'
+        )
+        instance = ActionHistory.objects.first()
+        object_type = instance._meta.get_field('object_type')
+        object_id = instance._meta.get_field('object_id')
+        action = instance._meta.get_field('action')
+        self.assertEqual(type(object_type), CharField)
+        self.assertEqual(type(object_id), IntegerField)
+        self.assertEqual(type(action), CharField)
