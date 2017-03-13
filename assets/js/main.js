@@ -1,6 +1,7 @@
+var in_current_window = false;
+var new_requests = 0
+
 $(document).ready(function(){
-    var in_current_window = false;
-    var new_requests = 0
 
     function title(count_of_requests) {
         if (!in_current_window && count_of_requests != 0) {
@@ -34,7 +35,7 @@ $(document).ready(function(){
         $.ajax({
             'dataType': 'json',
             'type': 'get',
-            'data': {'frontend_requests': count},
+            'data': {'temp': count},
             'success': function(data, status, xhr) {
                 if (data != "[]") {
                     data = JSON.parse(data);
@@ -43,7 +44,7 @@ $(document).ready(function(){
                     data.reverse();
                     $.each(data, function() {
                         if ($('.request').length >= 10) {
-                            $('.request')[0].remove();
+                            $('.request')[number].remove();
                         };
                         $('tbody').append("<tr class='request'><td>" +
                         this.fields.path + "</td><td>" +

@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from django.test import TestCase
 from hello.models import UserData, Request
-from django.db.models import (CharField,
+from django.db.models import (CharField, ImageField,
                               DateField, TimeField,
                               TextField, EmailField)
 
@@ -31,6 +31,7 @@ class Testdata(TestCase):
         jabber = data._meta.get_field('jabber')
         skype = data._meta.get_field('skype')
         other_contacts = data._meta.get_field('other_contacts')
+        photo = data._meta.get_field('photo')
         self.assertEqual(type(first_name), CharField)
         self.assertEqual(type(last_name), CharField)
         self.assertEqual(type(date_of_birth), DateField)
@@ -39,6 +40,7 @@ class Testdata(TestCase):
         self.assertEqual(type(jabber), CharField)
         self.assertEqual(type(skype), CharField)
         self.assertEqual(type(other_contacts), TextField)
+        self.assertEqual(type(photo), ImageField)
 
 
 class TestRequestModel(TestCase):
