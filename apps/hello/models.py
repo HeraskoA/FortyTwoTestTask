@@ -61,6 +61,7 @@ class Request(models.Model):
     path = models.CharField(max_length=60, blank=True)
     method = models.CharField(max_length=60, blank=True)
     time = models.TimeField(blank=True, auto_now=True)
+    priority = models.PositiveSmallIntegerField(default=1)
 
 
 class ActionHistory(models.Model):

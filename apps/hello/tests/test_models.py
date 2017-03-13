@@ -61,7 +61,7 @@ class TestRequestModel(TestCase):
         self.assertEqual(type(time), TimeField)
 
 
-class TestSignalModel(TestCase):
+class TestActionHistoryModel(TestCase):
     def test_model(self):
         """Check models fields"""
         ActionHistory.objects.create(
