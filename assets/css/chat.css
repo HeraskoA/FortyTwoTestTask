@@ -1,0 +1,50 @@
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+.form {
+	padding-top: 20px;
+
+}
+#interlocutor{
+    font-size: 22pt;
+}
+#footer {
+	border-top: 1px solid #dddddd;
+	padding-top: 10px;
+}
+
+textarea,
+select,
+input {
+	max-width: 300px;
+}
+#h3 {
+	margin-top: 30px;
+	margin-left: 300px;
+}
+#date {
+    display: inline-block;
+	width: 80px;
+	float:right
+}
+.chat-messages {
+    height: 400px;
+    width: 47%;
+    margin: 20px 0;
+    overflow: auto;
+}
+.chat-messages .message {
+    margin: 10px 0;
+    height: 15px;
+}
+.chat-messages address {
+    display: inline-block;
+    font-weight: bold;
+    margin-right: 10px
+}
+.chat-messages address:after {
+    content: ':';
+}
+#chat_window {
+	padding-left: 90px;
+}

@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load staticfiles %}
+{% block title %}Chat{% endblock title %}
+{% block extra_head %}
+	<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+{% endblock extra_head %}
+{% block content %}
+		<div class="container">
+			<h1>Chat</h1>
+		<hr>
+		<div class="row" id="content-columns">
+			<div class="col-xs-8" id="content-column">
+				<div id="h3">
+					<h3>select the user -></h3>
+				</div>
+			</div>
+			<div class="col-xs-4">
+				<ul class="list-group">
+        			<li class="list-group-item active">Users</li>
+						{% for userr in users %}
+							{% if user.is_authenticated and user.username != userr.username %}
+							<li class="list-group-item"><a href="{% url 'dialog' userr.id %}">{{ userr.username }}</a></li>
+						{% else %}
+							<li class="list-group-item">{{ userr.username }}</li>
+						{% endif %} 
+
+						{% endfor %}
+				</ul>
+			</div>
+		</div>
+		<div class="row" id="footer">
+			<div class="col-xs-12">
+				&copy; 2017 Chat
+			</div>
+		</div>
+		</div>
+{% endblock content %}
